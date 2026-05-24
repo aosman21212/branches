@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="branch_bs_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="data" t-value="doc.get_bs_data()"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <style>
+                                                        .brpt-header { background: #1a1a2e; color: #ffffff; padding: 16px 20px; margin-bottom: 20px; border-radius: 4px; }
+                            .brpt-header h2 { margin: 0; font-size: 20px; font-weight: 700; }
+                            .brpt-header .brpt-company { font-size: 12px; opacity: 0.75; margin-top: 2px; }
+                            .brpt-header .brpt-period { font-size: 11px; opacity: 0.75; text-align: right; }
+                            .brpt-branch-bar { background: rgba(255,255,255,0.12); border-left: 4px solid #ffc107; margin-top: 12px; padding: 8px 14px; border-radius: 0 3px 3px 0; }
+                            .brpt-branch-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; opacity: 0.7; margin-bottom: 2px; }
+                            .brpt-branch-name { font-size: 16px; font-weight: 800; letter-spacing: 0.3px; color: #ffc107; }
+                            .brpt-section-header { padding: 8px 12px; color: #fff; font-weight: 700; font-size: 13px; margin-top: 16px; }
+                            .brpt-asset-header { background: #1a56a0; }
+                            .brpt-liability-header { background: #7d1f1f; }
+                            .brpt-equity-header { background: #5a2d82; }
+                            .brpt-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+                            .brpt-table th { background: #f8f9fa; border-bottom: 2px solid #dee2e6; padding: 7px 10px; text-align: left; font-weight: 600; }
+                            .brpt-table th.text-right, .brpt-table td.text-right { text-align: right; }
+                            .brpt-table td { border-bottom: 1px solid #e9ecef; padding: 6px 10px; }
+                            .brpt-table tr:nth-child(even) td { background: #f8f9fa; }
+                            .brpt-subtotal td { background: #e9ecef !important; font-weight: 700; border-top: 2px solid #adb5bd; }
+                            .brpt-grand-total td { background: #1a1a2e !important; color: #fff; font-size: 13px; font-weight: 700; border-top: 3px double #adb5bd; }
+                            .text-right { text-align: right; }
+                        </style>
+
+                        <div class="brpt-header">
+                            <table style="width:100%;border-collapse:collapse;">
+                                <tr>
+                                    <td style="vertical-align:top;">
+                                        <h2>Balance Sheet</h2>
+                                        <div class="brpt-company"><t t-esc="doc.company_id.name"/></div>
+                                    </td>
+                                    <td style="vertical-align:top;text-align:right;">
+                                        <div class="brpt-period">As of Date</div>
+                                        <div style="font-size:13px;font-weight:700;"><t t-esc="doc.date_to"/></div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="brpt-branch-bar">
+                                <div class="brpt-branch-label">Branch</div>
+                                <div class="brpt-branch-name"><t t-esc="data['branches']"/></div>
+                            </div>
+                        </div>
+
+
+                        <!-- ══ Assets ══ -->
+                        <div class="brpt-section-header brpt-asset-header">ASSETS</div>
+                        <table class="brpt-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:15%">Code</th>
+                                    <th>Account</th>
+                                    <th class="text-right" style="width:20%">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="data['assets']" t-as="row">
+                                    <tr>
+                                        <td><t t-esc="row['code']"/></td>
+                                        <td><t t-esc="row['account']"/></td>
+                                        <td class="text-right">
+                                            <t t-esc="row['balance']"
+                                               t-options="{'widget': 'monetary', 'display_currency': doc.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-if="not data['assets']">
+                                    <tr><td colspan="3" style="text-align:center;color:#6c757d;font-style:italic;">No asset entries</td></tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="brpt-subtotal">
+                                    <td colspan="2">Total Assets</td>
+                                    <td class="text-right">
+                                        <t t-esc="data['total_assets']"
+                                           t-options="{'widget': 'monetary', 'display_currency': doc.company_id.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- ══ Liabilities ══ -->
+                        <div class="brpt-section-header brpt-liability-header">LIABILITIES</div>
+                        <table class="brpt-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:15%">Code</th>
+                                    <th>Account</th>
+                                    <th class="text-right" style="width:20%">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="data['liabilities']" t-as="row">
+                                    <tr>
+                                        <td><t t-esc="row['code']"/></td>
+                                        <td><t t-esc="row['account']"/></td>
+                                        <td class="text-right">
+                                            <t t-esc="row['balance']"
+                                               t-options="{'widget': 'monetary', 'display_currency': doc.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-if="not data['liabilities']">
+                                    <tr><td colspan="3" style="text-align:center;color:#6c757d;font-style:italic;">No liability entries</td></tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="brpt-subtotal">
+                                    <td colspan="2">Total Liabilities</td>
+                                    <td class="text-right">
+                                        <t t-esc="data['total_liabilities']"
+                                           t-options="{'widget': 'monetary', 'display_currency': doc.company_id.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- ══ Equity ══ -->
+                        <div class="brpt-section-header brpt-equity-header">EQUITY</div>
+                        <table class="brpt-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:15%">Code</th>
+                                    <th>Account</th>
+                                    <th class="text-right" style="width:20%">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="data['equity']" t-as="row">
+                                    <tr>
+                                        <td><t t-esc="row['code']"/></td>
+                                        <td><t t-esc="row['account']"/></td>
+                                        <td class="text-right">
+                                            <t t-esc="row['balance']"
+                                               t-options="{'widget': 'monetary', 'display_currency': doc.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-if="not data['equity']">
+                                    <tr><td colspan="3" style="text-align:center;color:#6c757d;font-style:italic;">No equity entries</td></tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="brpt-subtotal">
+                                    <td colspan="2">Total Equity</td>
+                                    <td class="text-right">
+                                        <t t-esc="data['total_equity']"
+                                           t-options="{'widget': 'monetary', 'display_currency': doc.company_id.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- ══ Grand Total ══ -->
+                        <table class="brpt-table" style="margin-top:16px;">
+                            <tbody>
+                                <tr class="brpt-grand-total">
+                                    <td style="width:80%">TOTAL LIABILITIES + EQUITY</td>
+                                    <td class="text-right">
+                                        <t t-esc="data['total_liab_equity']"
+                                           t-options="{'widget': 'monetary', 'display_currency': doc.company_id.currency_id}"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p style="margin-top:30px;font-size:10px;color:#6c757d;">
+                            Generated on <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                            — Branch Financial Reports by leapai.ai
+                        </p>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

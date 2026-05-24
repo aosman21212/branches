@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_branch_pl_report" model="ir.actions.report">
+            <field name="name">Branch Profit &amp; Loss</field>
+            <field name="model">branch.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">branch_finance_report.branch_pl_template</field>
+            <field name="report_file">branch_pl_report</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+        </record>
+
+        <record id="action_branch_bs_report" model="ir.actions.report">
+            <field name="name">Branch Balance Sheet</field>
+            <field name="model">branch.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">branch_finance_report.branch_bs_template</field>
+            <field name="report_file">branch_bs_report</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+        </record>
+
+        <record id="action_branch_tb_report" model="ir.actions.report">
+            <field name="name">Branch Trial Balance</field>
+            <field name="model">branch.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">branch_finance_report.branch_tb_template</field>
+            <field name="report_file">branch_tb_report</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+        </record>
+
+        <record id="action_branch_gl_report" model="ir.actions.report">
+            <field name="name">Branch General Ledger</field>
+            <field name="model">branch.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">branch_finance_report.branch_gl_template</field>
+            <field name="report_file">branch_gl_report</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+        </record>
+
+    </data>
+</odoo>

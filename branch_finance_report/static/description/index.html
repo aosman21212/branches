@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Branch Financial Reports — Odoo 19</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d3561 100%);
+    color: #fff;
+    padding: 60px 40px;
+    text-align: center;
+  }
+  .hero h1 { font-size: 2.6em; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+  .hero p { font-size: 1.18em; color: #c9d0e8; max-width: 620px; margin: 0 auto 28px; line-height: 1.6; }
+  .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,193,7,0.5);
+    color: #ffc107;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+  }
+
+  /* Section */
+  .section { max-width: 960px; margin: 0 auto; padding: 50px 24px; }
+  .section-title {
+    font-size: 1.7em;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .section-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 36px;
+    font-size: 1em;
+  }
+  .divider {
+    width: 60px;
+    height: 4px;
+    background: #ffc107;
+    margin: 10px auto 32px;
+    border-radius: 2px;
+  }
+
+  /* Features Grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .feature-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 28px 22px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border-top: 4px solid #ffc107;
+    transition: transform 0.2s;
+  }
+  .feature-icon { font-size: 2em; margin-bottom: 12px; }
+  .feature-card h3 { font-size: 1.05em; color: #1a1a2e; margin-bottom: 8px; font-weight: 700; }
+  .feature-card p { font-size: 0.88em; color: #666; line-height: 1.6; }
+
+  /* Screenshots */
+  .screenshots-section { background: #fff; }
+  .screenshot-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    overflow: hidden;
+    margin-bottom: 36px;
+  }
+  .screenshot-card svg { display: block; width: 100%; }
+  .screenshot-caption {
+    padding: 14px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    font-size: 0.88em;
+    color: #555;
+    font-weight: 600;
+  }
+  .screenshot-num {
+    display: inline-block;
+    background: #1a1a2e;
+    color: #ffc107;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 22px;
+    font-size: 0.78em;
+    margin-right: 8px;
+  }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 18px; }
+  .step {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    background: #fff;
+    padding: 22px 24px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: #1a1a2e;
+    color: #ffc107;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1em;
+  }
+  .step-body h4 { font-size: 1em; color: #1a1a2e; margin-bottom: 4px; font-weight: 700; }
+  .step-body p { font-size: 0.88em; color: #666; line-height: 1.5; }
+
+  /* Reports Table */
+  .reports-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .reports-table th { background: #1a1a2e; color: #ffc107; padding: 14px 18px; text-align: left; font-size: 0.9em; font-weight: 700; }
+  .reports-table td { padding: 13px 18px; font-size: 0.88em; color: #444; border-bottom: 1px solid #f0f0f0; }
+  .reports-table tr:last-child td { border-bottom: none; }
+  .reports-table tr:nth-child(even) td { background: #f8f9fa; }
+  .reports-table td:first-child { font-weight: 700; color: #1a1a2e; }
+  .nav-path { font-family: monospace; background: #eef2ff; color: #4056a1; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
+
+  /* Footer */
+  .footer {
+    background: #1a1a2e;
+    color: #8892b0;
+    text-align: center;
+    padding: 28px 20px;
+    font-size: 0.88em;
+    letter-spacing: 0.3px;
+  }
+  .footer span { color: #ffc107; }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <h1>Branch Financial Reports</h1>
+  <p>Filter every Odoo accounting report by branch — live, in one click. Four PDF reports included. Free &amp; open source.</p>
+  <div class="badges">
+    <span class="badge">✓ Odoo 19</span>
+    <span class="badge">✓ Free (LGPL-3)</span>
+    <span class="badge">✓ Accounting</span>
+    <span class="badge">✓ No Extra Dependencies</span>
+  </div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<div style="background:#f5f5f5;">
+  <div class="section">
+    <h2 class="section-title">Key Features</h2>
+    <div class="divider"></div>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">🏢</div>
+        <h3>Branch Units</h3>
+        <p>Create unlimited branches with name, code, city, and manager. Organise your entire chart of accounts by branch.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Live Filter in 5 Reports</h3>
+        <p>A Branch dropdown appears inside General Ledger, Trial Balance, Balance Sheet, P&amp;L and Partner Ledger — no reload needed.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🧾</div>
+        <h3>Journal Entry Branch</h3>
+        <p>Every journal entry (account.move) gets a Branch field so you can tag and trace transactions to the right location.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h3>4 PDF Reports</h3>
+        <p>Print Profit &amp; Loss, Balance Sheet, Trial Balance and General Ledger filtered by branch, date range and journals.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Date &amp; Journal Filtering</h3>
+        <p>Every PDF wizard supports start date, end date, journal, and account filters alongside the branch selection.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Demo Data Included</h3>
+        <p>3 sample branches (North, South, East) and 20 posted journal entries are installed automatically so you can explore immediately.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREENSHOTS ===== -->
+<div class="screenshots-section">
+  <div class="section">
+    <h2 class="section-title">Screenshots</h2>
+    <p class="section-subtitle">See exactly how the module looks inside Odoo 19</p>
+    <div class="divider"></div>
+
+    <!-- Screenshot 1: Branch Filter in General Ledger -->
+    <div class="screenshot-card">
+      <img src="/branch_finance_report/static/description/screenshot_01_general_ledger.png" style="width:100%;border-radius:6px;" alt="Screenshot 01 General Ledger"/>
+      <div class="screenshot-caption"><span class="screenshot-num">1</span> Branch Filter dropdown active inside the General Ledger — North Branch selected, live results shown</div>
+    </div>
+
+    <!-- Screenshot 2: Branch Field on Journal Entry -->
+    <div class="screenshot-card">
+      <img src="/branch_finance_report/static/description/screenshot_02_journal_entry.png" style="width:100%;border-radius:6px;" alt="Screenshot 02 Journal Entry"/>
+      <div class="screenshot-caption"><span class="screenshot-num">2</span> Branch field on a Journal Entry form — highlighted in gold, showing "North Branch" on a posted entry</div>
+    </div>
+
+    <!-- Screenshot 3: Branch Configuration List View -->
+    <div class="screenshot-card">
+      <img src="/branch_finance_report/static/description/screenshot_03_branch_list.png" style="width:100%;border-radius:6px;" alt="Screenshot 03 Branch List"/>
+      <div class="screenshot-caption"><span class="screenshot-num">3</span> Branch Units list view — create and manage all company branches with code, city and manager</div>
+    </div>
+
+    <!-- Screenshot 4: Profit & Loss PDF Report -->
+    <div class="screenshot-card">
+      <img src="/branch_finance_report/static/description/screenshot_04_pl_report.png" style="width:100%;border-radius:6px;" alt="Screenshot 04 Pl Report"/>
+      <div class="screenshot-caption"><span class="screenshot-num">4</span> Profit &amp; Loss PDF output — dark navy header, gold branch bar, green income and red expense sections</div>
+    </div>
+
+    <!-- Screenshot 5: Report Wizard -->
+    <div class="screenshot-card">
+      <img src="/branch_finance_report/static/description/screenshot_05_wizard.png" style="width:100%;border-radius:6px;" alt="Screenshot 05 Wizard"/>
+      <div class="screenshot-caption"><span class="screenshot-num">5</span> Report Wizard — select report type, branches, date range, journals and accounts before printing PDF</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== HOW TO USE ===== -->
+<div style="background:#f5f5f5;">
+  <div class="section">
+    <h2 class="section-title">How to Use</h2>
+    <div class="divider"></div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Install the Module</h4>
+          <p>Install <strong>Branch Financial Reports</strong> from Apps. Demo data is loaded automatically — 3 branches (North, South, East) and 20 posted journal entries are ready to explore immediately.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Create Your Branches</h4>
+          <p>Navigate to <strong>Branch Reports → Configuration → Branches</strong>. Click <em>New</em> and fill in the branch name, short code, city and manager. Create as many branches as your organisation needs.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Tag Journal Entries with a Branch</h4>
+          <p>Open any journal entry under <strong>Accounting → Journal Entries</strong>. The new <em>Branch</em> field is visible on the form — select the appropriate branch and save.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Filter Live Accounting Reports</h4>
+          <p>Go to any of the 5 standard reports: <strong>General Ledger, Trial Balance, Balance Sheet, Profit &amp; Loss, Partner Ledger</strong>. Click the <em>Branch</em> filter button and select one or more branches — the report updates instantly.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Print Branch PDF Reports</h4>
+          <p>Go to <strong>Branch Reports → Reports</strong>, choose <em>Profit &amp; Loss</em>, <em>Balance Sheet</em>, <em>Trial Balance</em> or <em>General Ledger</em>. In the wizard, select your branches, date range and optional journal/account filters, then click <em>Print Report</em>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== INCLUDED REPORTS TABLE ===== -->
+<div style="background:#fff;">
+  <div class="section">
+    <h2 class="section-title">Included PDF Reports</h2>
+    <p class="section-subtitle">All four core accounting reports, filterable by branch</p>
+    <div class="divider"></div>
+    <table class="reports-table">
+      <thead>
+        <tr>
+          <th>Report</th>
+          <th>Description</th>
+          <th>Access Path</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Profit &amp; Loss</td>
+          <td>Income vs Expenses breakdown by branch for any date range</td>
+          <td><span class="nav-path">Branch Reports → Profit &amp; Loss</span></td>
+        </tr>
+        <tr>
+          <td>Balance Sheet</td>
+          <td>Assets, Liabilities and Equity summary filtered by branch</td>
+          <td><span class="nav-path">Branch Reports → Balance Sheet</span></td>
+        </tr>
+        <tr>
+          <td>Trial Balance</td>
+          <td>All accounts with opening, period debit/credit and closing balances</td>
+          <td><span class="nav-path">Branch Reports → Trial Balance</span></td>
+        </tr>
+        <tr>
+          <td>General Ledger</td>
+          <td>Every journal line by account, filterable by branch, journal and date</td>
+          <td><span class="nav-path">Branch Reports → General Ledger</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  Developed by <span>leapai.ai</span> &nbsp;|&nbsp; Odoo <span>19.0</span> &nbsp;|&nbsp; Version <span>19.0.1.0.0</span> &nbsp;|&nbsp; <span>LGPL-3</span> License &nbsp;|&nbsp; Free to use
+</div>
+
+</body>
+</html>

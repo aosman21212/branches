@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ── Wizard Form View ── -->
+        <record id="view_branch_report_wizard_form" model="ir.ui.view">
+            <field name="name">branch.report.wizard.form</field>
+            <field name="model">branch.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Branch Financial Report">
+                    <group>
+                        <group string="Report Settings">
+                            <field name="report_type"/>
+                            <field name="company_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="include_unposted"/>
+                        </group>
+                        <group string="Filters">
+                            <field name="branch_ids" widget="many2many_tags"/>
+                            <field name="journal_ids" widget="many2many_tags"/>
+                            <field name="account_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_print_report" type="object"
+                                string="Print Report" class="btn-primary"/>
+                        <button special="cancel" string="Cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- ── 4 separate window actions, one per report type ── -->
+        <record id="action_branch_report_wizard_pl" model="ir.actions.act_window">
+            <field name="name">Profit &amp; Loss by Branch</field>
+            <field name="res_model">branch.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_report_type': 'profit_loss'}</field>
+        </record>
+
+        <record id="action_branch_report_wizard_bs" model="ir.actions.act_window">
+            <field name="name">Balance Sheet by Branch</field>
+            <field name="res_model">branch.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_report_type': 'balance_sheet'}</field>
+        </record>
+
+        <record id="action_branch_report_wizard_tb" model="ir.actions.act_window">
+            <field name="name">Trial Balance by Branch</field>
+            <field name="res_model">branch.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_report_type': 'trial_balance'}</field>
+        </record>
+
+        <record id="action_branch_report_wizard_gl" model="ir.actions.act_window">
+            <field name="name">General Ledger by Branch</field>
+            <field name="res_model">branch.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_report_type': 'general_ledger'}</field>
+        </record>
+
+    </data>
+</odoo>

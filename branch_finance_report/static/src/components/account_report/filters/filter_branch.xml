@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+
+    <!-- ── Branch filter dropdown widget ── -->
+    <t t-name="branch_finance_report.AccountReportFilterBranch">
+        <Dropdown menuClass="'account_report_filter branch'">
+            <button class="btn btn-secondary">
+                <i class="fa fa-sitemap me-1" title="Branch"/>
+                Branch
+                <t t-if="controller.cachedFilterOptions.branch_ids.length">
+                    <span class="badge rounded-pill text-bg-primary ms-1">
+                        <t t-esc="controller.cachedFilterOptions.branch_ids.length"/>
+                    </span>
+                </t>
+            </button>
+            <t t-set-slot="content">
+                <div class="dropdown-item gap-2 align-items-center px-3 py-2">
+                    <label class="fw-bold mb-1 d-block">Filter by Branch</label>
+                    <MultiRecordSelector t-props="getMultiRecordSelectorProps('branch.unit', 'branch_ids')"/>
+                </div>
+            </t>
+        </Dropdown>
+    </t>
+
+    <!--
+        Inject into AccountReportFiltersCustomizable.
+        Anchor: filter_rounding_unit — always present, no t-if wrapper.
+    -->
+    <t t-name="account_reports.AccountReportFiltersCustomizable"
+       t-inherit="account_reports.AccountReportFiltersCustomizable"
+       t-inherit-mode="extension">
+        <xpath expr="//div[@id='filter_rounding_unit']" position="before">
+            <t t-if="'branch' in controller.cachedFilterOptions">
+                <div id="filter_branch" class="filter_branch">
+                    <t t-call="branch_finance_report.AccountReportFilterBranch"/>
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

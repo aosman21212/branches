@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Root App Menu Item -->
+        <menuitem id="menu_branch_finance_root"
+            name="Branch Reports"
+            sequence="90"
+            web_icon="branch_finance_report,static/description/icon.png"/>
+
+        <!-- Reports sub-menu -->
+        <menuitem id="menu_branch_finance_reports"
+            name="Reports"
+            parent="menu_branch_finance_root"
+            sequence="10"/>
+
+        <menuitem id="menu_branch_pl_report"
+            name="Profit &amp; Loss"
+            parent="menu_branch_finance_reports"
+            action="action_branch_report_wizard_pl"
+            sequence="10"/>
+
+        <menuitem id="menu_branch_bs_report"
+            name="Balance Sheet"
+            parent="menu_branch_finance_reports"
+            action="action_branch_report_wizard_bs"
+            sequence="20"/>
+
+        <menuitem id="menu_branch_tb_report"
+            name="Trial Balance"
+            parent="menu_branch_finance_reports"
+            action="action_branch_report_wizard_tb"
+            sequence="30"/>
+
+        <menuitem id="menu_branch_gl_report"
+            name="General Ledger"
+            parent="menu_branch_finance_reports"
+            action="action_branch_report_wizard_gl"
+            sequence="40"/>
+
+        <!-- Configuration sub-menu -->
+        <menuitem id="menu_branch_config"
+            name="Configuration"
+            parent="menu_branch_finance_root"
+            sequence="90"/>
+
+        <menuitem id="menu_branch_units"
+            name="Branches"
+            parent="menu_branch_config"
+            action="action_branch_unit"
+            sequence="10"/>
+
+    </data>
+</odoo>

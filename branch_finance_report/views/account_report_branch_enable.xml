@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Enable branch filter on standard accounting reports -->
+
+        <record id="account_reports.general_ledger_report" model="account.report">
+            <field name="filter_branch">1</field>
+        </record>
+
+        <record id="account_reports.trial_balance_report" model="account.report">
+            <field name="filter_branch">1</field>
+        </record>
+
+        <record id="account_reports.balance_sheet" model="account.report">
+            <field name="filter_branch">1</field>
+        </record>
+
+        <record id="account_reports.profit_and_loss" model="account.report">
+            <field name="filter_branch">1</field>
+        </record>
+
+        <record id="account_reports.partner_ledger_report" model="account.report">
+            <field name="filter_branch">1</field>
+        </record>
+
+    </data>
+</odoo>
