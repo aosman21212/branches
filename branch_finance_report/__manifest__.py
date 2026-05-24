@@ -20,6 +20,15 @@ All reports export as PDF using QWeb templates.
     'author': 'leapai.ai',
     'website': 'https://leapai.ai',
     'license': 'LGPL-3',
+    'images': [
+        'static/description/banner.png',
+        'static/description/icon.png',
+        'static/description/screenshot_01_general_ledger.png',
+        'static/description/screenshot_02_journal_entry.png',
+        'static/description/screenshot_03_branch_list.png',
+        'static/description/screenshot_04_pl_report.png',
+        'static/description/screenshot_05_wizard.png',
+    ],
     'depends': ['account', 'mail', 'account_reports'],
     'data': [
         'security/branch_security.xml',
